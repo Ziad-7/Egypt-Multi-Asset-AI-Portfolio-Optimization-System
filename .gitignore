@@ -37,3 +37,7 @@ coverage/
 
 # Optional large generated artifacts
 outputs/plots/
+
+# macOS archive artifacts
+__MACOSX/
+._*
