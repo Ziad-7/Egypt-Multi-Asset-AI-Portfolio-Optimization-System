@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "REPLACE_WITH_snapshot_script_output",
+  "fingerprint": {
+    "schema_version": 1,
+    "per_asset": {
+      "EGX30": { "mean_ann": 0.0, "vol_ann": 0.0 }
+    },
+    "corr_vs_egx30": {}
+  },
+  "note": "Copy to drift_baseline.json after running python scripts/snapshot_drift_baseline.py"
+}

@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.venv/
+venv/
+
+# Node / Next
+node_modules/
+.next/
+out/
+
+# Logs
+*.log
+frontend.stdout.log
+frontend.stderr.log
+backend.stdout.log
+backend.stderr.log
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build / cache
+.pytest_cache/
+.mypy_cache/
+coverage/
+
+# Local env
+.env
+.env.local
+.env.*.local
+
+# Optional large generated artifacts
+outputs/plots/
