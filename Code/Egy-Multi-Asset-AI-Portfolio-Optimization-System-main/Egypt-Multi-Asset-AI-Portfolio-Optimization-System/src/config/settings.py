@@ -27,6 +27,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 FINAL_DATA_DIR = DATA_DIR / "final_data"
 CLEANED_DATA_DIR = DATA_DIR / "cleaned_data"
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
+MODEL_SUMMARY_PATH = OUTPUTS_DIR / "model_summary.json"
 
 ASSET_FILES: Dict[str, Path] = {
     "EGX30": FINAL_DATA_DIR / "final_EGX30.csv",

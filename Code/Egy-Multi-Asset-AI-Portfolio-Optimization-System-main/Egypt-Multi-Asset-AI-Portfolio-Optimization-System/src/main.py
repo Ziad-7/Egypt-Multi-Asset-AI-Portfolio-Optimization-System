@@ -10,6 +10,7 @@ from pathlib import Path
 
 from src.api.service import run_portfolio_intelligence
 from src.config.settings import OPTIMAL_PORTFOLIO_KEY
+from src.governance.model_summary import default_summary_path_for_report, write_model_summary
 
 warnings.filterwarnings("ignore")
 
@@ -54,6 +55,7 @@ def main() -> None:
     result = run_portfolio_intelligence(include_backtest=not args.no_backtest)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(_json_safe(result), indent=2))
+    summary_path = write_model_summary(result, default_summary_path_for_report(args.out))
 
     if not args.no_plots:
         from src.visualization.report_plots import build_visualizations
@@ -61,6 +63,7 @@ def main() -> None:
         build_visualizations(result, args.plots_dir)
 
     print(f"Saved intelligence report to {args.out}")
+    print(f"Saved model summary to {summary_path}")
     selected = result.get("metadata", {}).get("selected_profile", OPTIMAL_PORTFOLIO_KEY)
     print(json.dumps(_json_safe(result["layer_interaction"].get(selected, {})), indent=2))
 

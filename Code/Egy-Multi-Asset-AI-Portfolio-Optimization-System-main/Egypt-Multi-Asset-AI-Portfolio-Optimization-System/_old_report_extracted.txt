@@ -1,0 +1,805 @@
+--- PAGE 1 ---
+   
+ 
+i | P a g e  
+ 
+ 
+ 
+ 
+To: Dr. Fatema ElShahaby 
+From: 
+Ziad Ahmed Rabie   23-101292 
+Farah Sultan              23-101224 
+Moataz Ashraf          23-101290 
+Mostafa Ibrahim      24-101476 
+Hassan Ahmed        23-101330 
+Mohamed Allam      23-101291 
+Subject: Proposal & Interim Report – Egyptian Investment Portfolio Analysis (CSE271) 
+I am submitting this proposal and progress report for the Egyptian Investment Portfolio 
+Analysis project, which addresses two core objectives: building a reproducible data 
+science pipeline for multi-asset financial data, and extracting actionable, data-driven 
+insights for portfolio allocation in emerging market conditions. This submission reflects the 
+foundational work completed to date, including systematic data sourcing, rigorous 
+cleaning, exploratory visualization, and predictive feature engineering. 
+The following sections provide a structured overview of the project framework and current 
+progress: 
+Chosen Data Sets ---------------------------------------------------- 
+EDA Key Findings ---------------------------------------  
+Results --------------------------------  
+ 
+  
+
+--- PAGE 2 ---
+   
+ 
+ii | P a g e  
+ 
+ 
+  
+Egyptian Investment Portfolio 
+Analysis 
+ CSE271-Data Science Methodology 
+ 
+Egypt university of Informatics-EUI 
+--- PAGE 3 ---
+   
+ 
+iii | P a g e  
+ 
+1. Abstract ................................ ................................ ................................ ................ 1 
+2. Introduction ................................ ................................ ................................ ........... 1 
+a. Background and Context ................................ ................................ ..................... 1 
+b. Literature Review ................................ ................................ ................................  1 
+c. Project Objectives ................................ ................................ ..............................  2 
+3. Materials ................................ ................................ ................................ ............... 2 
+a. Data Description ................................ ................................ ................................  2 
+i. Data Source & Collection Protocol ................................ ................................ ... 2 
+ii. Source Selection Justification ................................ ................................ .......... 3 
+iii.  Chosen Data Sets ................................ ................................ ...........................  3 
+iv. Raw Data Parameters ................................ ................................ ...................... 4 
+4. Methods ................................ ................................ ................................ ................ 5 
+a. Data cleaning & Preprocessing ................................ ................................ ............ 5 
+i. Standardization Pipeline Steps ................................ ................................ ......... 5 
+ii. Error Handling & Data Integrity ................................ ................................ ......... 6 
+b. Exploratory data analysis (EDA) & Feature Engineering ................................ .......... 6 
+c. Models Chosen ................................ ................................ ................................  11 
+i. Classification models ................................ ................................ .................... 11 
+i. Regression models ................................ ................................ ........................ 12 
+d. Visualization ................................ ................................ ................................ .... 13 
+Results ................................ ................................ ................................ ....................... 15 
+EDA Key findings ................................ ................................ ................................ ...... 15 
+Regression Results (Strategic Forecasting) ................................ ................................  15 
+Classification Results (Tactical Signals) ................................ ................................ .... 16 
+Montecarlo Key findings ................................ ................................ ...........................  16 
+Conclusion ................................ ................................ ................................ ................. 19 
+Acknowledgement ................................ ................................ ................................ ...... 19 
+References ................................ ................................ ................................ ................. 19 
+ 
+--- PAGE 4 ---
+   
+ 
+1 | P a g e  
+ 
+1. Abstract 
+This project develops a comprehensive data science framework to optimize investment portfolio 
+allocation within Egypt’s volatile emerging market. Addressing the challenges of currency devaluation, 
+high inflation, and fragmented financial data, we constructed a reproducible pipeline to process daily 
+historical prices (2015–2026) across equity indices, real estate stocks, gold, and sovereign T-bills. 
+Through rigorous exploratory data analysis and feature engineering, we identified distinct risk-return 
+profiles: gold consistently acted as a macroeconomic hedge with minimal drawdowns, T-bills provided a 
+stable risk-free anchor, while equities exhibited high volatility and fat-tailed return distributions. Machine 
+learning models—including Logistic Regression, XGBoost, Random Forest, and SVR—were deployed to 
+classify market regimes and predict daily returns, achieving robust performance by leveraging technical 
+indicators and volatility-aware segmentation. Monte Carlo optimization and backtesting further validated 
+a diversified portfolio strategy that historically outperformed traditional benchmarks like the EGX30. We 
+conclude that a dynamic, multi-asset approach balancing growth equities, real estate exposure, gold 
+hedging, and T-bill stabilization significantly enhances risk-adjusted returns. Investors should prioritize 
+uncorrelated asset integration and volatility-triggered rebalancing to navigate Egypt’s shifting 
+macroeconomic landscape. 
+2. Introduction 
+a. Background and Context 
+Egypt’s financial market has experienced significant macroeconomic shifts over the past decade, 
+including currency devaluation, high inflation, and aggressive monetary policy responses. Investors 
+navigating this environment require robust, data-driven tools to evaluate risk and optimize portfolio 
+allocation. This project focuses on constructing an analytical framework for an Egyptian investment 
+portfolio, leveraging historical price data across equities, commodities, fixed income, and real estate 
+stocks. By applying modern data science techniques, we aim to transform raw market data into 
+predictive insights and actionable investment signals. 
+b. Literature Review 
+The theoretical foundation of this project rests on Modern Portfolio Theory (MPT), pioneered by 
+Markowitz (1952), which demonstrates that optimal asset allocation relies on maximizing 
+expected return for a given level of risk through diversification and covariance analysis. In 
+emerging markets like Egypt, MPT principles are critically tested by structural volatility, 
+inflationary pressures, and currency depreciation. Empirical reports from the International 
+Monetary Fund (IMF) and the Central Bank of Egypt (CBE) consistently highlight how EGP 
+devaluation amplifies equity risk while simultaneously elevating the attractiveness of hard-asset 
+--- PAGE 5 ---
+   
+ 
+2 | P a g e  
+ 
+hedges such as gold and short-term sovereign debt (IMF , 2023; CBE, 2024). These 
+macroeconomic dynamics necessitate portfolio frameworks that explicitly account for cross-
+asset correlations and regime shifts. 
+Recent quantitative finance literature emphasizes the limitations of traditional linear 
+econometric models in capturing non-linear market dynamics and fat-tailed return distributions. 
+Consequently, machine learning techniques—including ensemble methods (e.g., Random 
+Forest, XGBoost) and kernel-based approaches (e.g., SVM, SVR)—have gained traction for regime 
+classification and return forecasting, frequently outperforming conventional benchmarks in 
+volatile environments (Gu, Kelly, & Xiu, 2020). However, few studies apply these methodologies to 
+a comprehensive, multi-asset Egyptian portfolio framework that integrates real estate equities, 
+commodities, and fixed income. This project bridges that gap by combining rigorous data 
+engineering, advanced ML modeling, and interactive visualization to deliver empirically grounded 
+portfolio strategies tailored to Egypt’s unique macroeconomic conditions. 
+c. Project Objectives 
+• Build a reproducible data science pipeline for multi-asset financial data 
+• Perform rigorous EDA to understand risk profiles across asset classes 
+• Engineer predictive features for ML modeling 
+• Extract actionable, data-driven insights for portfolio allocation 
+3. Materials 
+a. Data Description 
+i. Data Source & Collection Protocol 
+Historical financial data for this project were gathered from three distinct sources to ensure 
+robustness and cross-validation: 
+Source 
+  
+Role in Project Rationale 
+Egyptian Exchange 
+(EGX) Official 
+Portal 
+Reference/Validation Primary official source for Egyptian market data; used to verify 
+index composition and trading calendar accuracy 
+investing.com Primary Data 
+Source 
+Selected for final dataset due to consistent formatting, 
+complete historical coverage (2015–2026), and minimal 
+preprocessing requirements 
+--- PAGE 6 ---
+   
+ 
+3 | P a g e  
+ 
+Yahoo Finance Reference/Validation Used for cross-checking price levels and return calculations, 
+particularly for internationally traded instruments (e.g., 
+Gold/EGP) + Benchmark (S&P500) 
+ 
+ii. Source Selection Justification 
+After initial exploration of all three platforms, investing.com was designated as the primary source 
+for the analytical dataset based on the following criteria: 
+Criterion investing.com EGX Official Yahoo Finance 
+Formatting Consistency Standardized CSV 
+export 
+Mixed formats 
+(PDF/HTML) 
+Standardized, but occasional 
+symbol mismatches 
+Column Structure 
+Clarity 
+ Explicit labels (Price, 
+Vol., Change%) 
+ Arabic/English mix; 
+requires translation 
+ Clear labels, but EGX-specific 
+symbols sometimes missing 
+Preprocessing Effort 
+Required 
+Lowest High (scraping + 
+parsing) 
+Medium (symbol mapping + 
+alignment) 
+Update Frequency Daily Daily (post-market) Daily (real-time) 
+ 
+Consequently, all final modeling and analysis were performed on the investing.com-derived 
+dataset. Data from EGX Official and Yahoo Finance were retained solely for validation purposes: spot-
+checking price levels, confirming return calculations, and identifying potential outliers or reporting 
+discrepancies. 
+iii. Chosen Data Sets 
+For the primary dataset (investing.com), extraction was performed with the following specifications: 
+• Start Date: January 1, 2015 
+• End Date: May 1, 2026 
+• Frequency: Daily (trading days only, aligned with EGX calendar) 
+• Currency: All values denominated in Egyptian Pounds (EGP) 
+• Reproducibility: Direct URL 
+ 
+ 
+--- PAGE 7 ---
+   
+ 
+4 | P a g e  
+ 
+Asset Type Description and URL 
+ 
+EGX30 
+ 
+Stocks 
+Benchmark equity index tracking the top 30 most liquid large-cap 
+companies on the Egyptian Exchange 
+URL: https://www.investing.com/indices/egx-100-historical-data 
+ 
+EGX100 
+ 
+Stocks 
+Broader equity index covering the top 100 companies by market cap and 
+liquidity on the EGX. 
+URL: https://www.investing.com/indices/egx-100-historical-data 
+ 
+Gold (EGP/g) 
+ 
+Commodity 
+Gold price denominated in Egyptian Pounds per gram, derived from global 
+gold (USD) × USD/EGP exchange rate 
+URL: https://www.investing.com/currencies/gau-egp 
+ 
+1-Year T-
+Bills 
+ 
+Fixed 
+Income 
+Short-term sovereign debt instruments issued by the Central Bank of 
+Egypt; maturity ~364 days; yield quoted as annual %. 
+URL: https://www.investing.com/rates-bonds/egypt-1-year-bond-yield-historical-data 
+EGXREF 
+ 
+Physical 
+Real Estate 
+Fund 
+Physical real estate fund 
+URL: https://www.investing.com/equities/egyptians-real-estate-fund 
+ 
+ 
+iv. Raw Data Parameters 
+For all data sets (EGX30, EGX100, T-Bills, Gold (EGP/g), EGREF  ( before the cleaning process).  
+Column Data 
+Type Description 
+Date object 
+(string) 
+Trading date in M/D/YYYY format (e.g., "4/30/2026" , "1/1/2015"); no time 
+component; may contain leading/trailing whitespace 
+Price object 
+(string) 
+Closing price with comma thousands separators (e.g., "51,760.97" , 
+"1,234.50"); may include currency symbol in some exports 
+Open object 
+(string) 
+Opening price with comma formatting (e.g., "51,500.00"); same structure as 
+Price 
+High object 
+(string) 
+Daily high price with comma formatting (e.g., "52,100.25") 
+--- PAGE 8 ---
+   
+ 
+5 | P a g e  
+ 
+Low object 
+(string) 
+Daily low price with comma formatting (e.g., "51,200.80") 
+Vol. object 
+(string) 
+Trading volume with 'M' suffix for millions (e.g., "637.54M"); may be empty 
+string "" for missing values (e.g., Gold, or isolated gaps like EGX100 on 
+4/16/2020) 
+Change% object 
+(string) 
+Daily percentage change with sign and '%' symbol (e.g., "-1.19%" , "+0.45%" , 
+"0.00%"); zero values may appear as "0.00%" or "0%" 
+ 
+The following subsections Methods describe the procedures undertaken for data preprocessing, 
+exploratory data analysis, feature engineering, model development, and result visualization. 
+4. Methods 
+a. Data cleaning & Preprocessing 
+Raw CSV files exported from investing.com required systematic preprocessing to resolve 
+formatting inconsistencies, standardize temporal structure, and ensure compatibility with time-series 
+modeling. The pipeline was implemented in Python using pandas and is fully reproducible. 
+i. Standardization Pipeline Steps 
+Each asset file passes through an 11-step deterministic workflow: 
+Step Action Implementation Detail Output / Effect 
+1 Load Raw File Read CSV from raw_data/ using config.py mappings Source file remains 
+unchanged 
+2 Normalize 
+Headers 
+Lowercase names, trim whitespace, standardize 
+labels (Vol. → vol, Change% → change_pct) 
+Consistent column 
+naming 
+3 Parse Dates Convert M/D/YYYY strings to ISO datetime 
+, then set as index 
+Time-aware DataFrame 
+index 
+4 Sort 
+Chronologically 
+Sort index ascending (oldest to newest) Time-series compatibility 
+5 Filter Date Range Restrict to 2015-01-01 through 2026-05-01 Focused analysis period 
+6 Remove 
+Duplicates 
+Drop duplicate timestamps (keep='first') Prevents artificial data 
+inflation 
+--- PAGE 9 ---
+   
+ 
+6 | P a g e  
+ 
+7 Clean Price 
+Columns 
+Strip commas from price, open, high, low; convert to 
+float 
+Numeric precision for 
+modeling 
+8 Format Volume Remove M suffix from vol; convert to float; empty 
+cells → NaN 
+Volume stored in millions 
+(EGP) 
+9 Standardize 
+Returns 
+Strip % from change_pct; convert to signed float Ready for return 
+calculations 
+10 Audit Missing 
+Values 
+Log NaN counts per column Transparency for 
+downstream handling 
+11 Export Cleaned 
+Data 
+Save to cleaned_data/{asset}_clean.csv Model-ready output files 
+Note: T-Bills follow the same 11-step flow but retain only date and price columns, as yield % serves 
+directly as return and risk-free rate. 
+ii. Error Handling & Data Integrity 
+• pd.to_numeric (..., errors="coerce") ensures malformed strings safely convert to NaN rather 
+than triggering pipeline failures. 
+• Raw files in raw_data/ remain immutable; all transformations are applied in-memory. 
+• The pipeline logs row counts, dropped duplicates, and missing value distributions for full 
+auditability. 
+b. Exploratory data analysis (EDA) & Feature Engineering 
+ 
+We present the full workflow using EGX30 as a representative example. The identical pipeline was applied 
+to EGX100, TMG, SODIC, Palm Hills, Gold, and T-Bills. Asset-specific results are summarized in 
+Section 4.b.iv 
+Now, we start with steps taken to tackle this part:  
+1. Step 1: Load & Inspect Cleaned Data 
+We begin by loading the cleaned EGX30 dataset (egx30_clean.csv) and performing a quick structural 
+audit to confirm readiness for analysis. 
+Action Purpose Output Verified 
+Load CSV with date as index Ensure time-series compatibility Datetime Index, sorted ascending 
+--- PAGE 10 ---
+   
+ 
+7 | P a g e  
+ 
+Print date range & observation 
+count 
+Confirm temporal coverage 2015-01-04 to 2026 -04-30 (~2,754 
+trading days) 
+List columns Verify feature availability price, open, high, low, vol, 
+change_pct 
+Check for missing values Validate cleaning pipeline 
+effectiveness 
+0 missing values in core columns 
+ 
+Figure 1: Data inspection 1 
+ 
+Figure 2: Data inspection 2 
+ 
+ 
+ 
+2. Step 2: Core Visualizations (The 7-Plot Standard) 
+For each asset, we generated seven standardized plots. Below are the EGX30 examples: 
+
+--- PAGE 11 ---
+   
+ 
+8 | P a g e  
+ 
+Plot Purpose Key Insight (EGX30 
+Example) 
+So What? 
+1. Cumulative 
+Returns + 
+Volume 
+Show long-term 
+growth trajectory & 
+liquidity 
+EGX30 grew ~3x from 2015–
+2026, with sharp 
+drawdowns in 2016 
+(devaluation) and 2020 
+(pandemic). Volume spikes 
+precede major moves. 
+Confirms EGX30 is a high-beta 
+equity index: high reward 
+potential but requires timing/risk 
+management. 
+2. Return 
+Distribution 
+(Histogram + 
+KDE) 
+Check for 
+normality, fat tails, 
+skew 
+Returns are leptokurtic (fat-
+tailed): extreme moves 
+(>±2σ) occur 3× more often 
+than Gaussian prediction. 
+Standard risk models (VaR, 
+Sharpe) will underestimate tail 
+risk. We use robust models 
+(SVR, tree ensembles). 
+3. Target Class 
+Balance 
+Assess 
+classification 
+difficulty 
+Label distribution: 65.9% 
+Down/Flat (0), 34.1% Up (1) 
+mild imbalance. 
+Accuracy alone is misleading; 
+we prioritize F1-Score and ROC-
+AUC for model evaluation. 
+4. Feature 
+Separability 
+(Violin Plots) 
+Test if features 
+distinguish 
+up/down days 
+RSI, MACD, and Bollinger 
+features show substantial 
+overlap between labels — 
+no single "magic" indicator. 
+Justifies ensemble ML: models 
+must learn complex feature 
+interactions, not simple rules. 
+5. Feature 
+Correlation 
+Matrix 
+Detect 
+multicollinearity & 
+linear predictability 
+High correlation between 
+momentum features (e.g., 
+RSI ↔ bb_pb: 0.87). Near-
+zero correlation between 
+features and label (max 
+It’s noted to the modeling team 
+to drop one of the high 
+correlated features in simple 
+models. Weak correlation with 
+label proves it’s hard to 
+predicted the financial market 
+6. Rolling 
+Volatility (30-
+day, 
+annualized) 
+Identify volatility 
+clustering & regime 
+shifts 
+Volatility clusters: calm 
+periods (σ ≈ 15%) alternate 
+with stress spikes (σ > 40% 
+in 2020). 
+Supports regime-aware 
+modeling: we segment data by 
+volatility state before training. 
+7. Historical 
+Drawdowns 
+Quantify peak-to-
+trough risk 
+Maximum drawdown: ~60% 
+(2020). Recovery took ~18 
+months. 
+Critical input for portfolio 
+optimization: EGX30 requires 
+diversification with lo 
+ 
+--- PAGE 12 ---
+   
+ 
+9 | P a g e  
+ 
+ 
+Figure 3: EGX30 Features heats map 
+ 
+ 
+ 
+ 
+Figure 4: EGX30: Target Class Balance 
+
+--- PAGE 13 ---
+   
+ 
+10 | P a g e  
+ 
+ 
+ 
+Figure 5: EGX30, Cumulative Returns 
+ 
+ 
+ 
+ 
+ 
+Figure 6: EGX30, Rolling volatility 
+
+--- PAGE 14 ---
+   
+ 
+11 | P a g e  
+ 
+ 
+Figure 7:EGX30, Historical Drawdowns 
+ 
+Figure 8:EGX30, Return Distribution 
+ 
+c. Models Chosen 
+After several trials and testing processes, we found that those models gave the optimal portfolio in the 
+Egyptian market. 
+i. Classification models  
+1. Logistic Regression 
+Purpose: Serves as an interpretable baseline classifier that estimates market regime probabilities using 
+a SoftMax function. 
+
+--- PAGE 15 ---
+   
+ 
+12 | P a g e  
+ 
+Configuration: Trained on the reduced “lr” feature set using class_weight="balanced" with a maximum of 
+1,000 iterations. 
+Performance: Achieved accuracy of 56.9% on both EGX30 and Gold. The weighted F1-score reached 
+56.7% for EGX30 and 52.6% for Gold, with an average weighted F1-score of approximately 54.6%. 
+ 
+2. SVM (Support Vector Machines) 
+Purpose: Captures non-linear market regime boundaries by projecting features into a higher-
+dimensional space. 
+Configuration: Implemented using an RBF kernel with C=1.2, class_weight="balanced" , and 
+probability=True for calibrated probability outputs. 
+Output: SVM was preferred over Decision Trees during final selection because Decision Trees achieved 
+only approximately 48.1% mean accuracy across assets, compared to stronger and more stable 
+performance from Logistic Regression and XGBoost. 
+3. XGBoost 
+Purpose: Acts as the primary high-capacity classifier by sequentially correcting prediction errors through 
+gradient-boosted decision trees. 
+Configuration: Trained with n_estimators=200, learning_rate=0.05, max_depth=5, subsample=0.8, and 
+colsample_bytree=0.8. 
+Performance: Achieved the highest classification performance among the tested classifiers, with 
+accuracies of 60.7% for EGX30 and 55.9% for Gold. The weighted F1-scores reached 54.0% and 47.5%, 
+respectively, resulting in an average accuracy of approximately 58.3%. 
+  
+i. Regression models 
+4. Linear Regression 
+Purpose: Provides a simple and interpretable baseline by minimizing residual sum of squares. 
+Configuration: Trained on the reduced “lr” feature set with standard scaling applied before training. 
+Performance: Produced the strongest regression results among all tested models. The model achieved 
+an 𝑅2score of 0.920 on EGX30 and 0.940 on Gold, with a mean 𝑅2of approximately 0.930. RMSE values 
+remained low at 0.00418 and 0.00573, respectively. 
+5. Random Forest 
+Purpose: Captures complex non-linear relationships using an ensemble of decision trees. 
+--- PAGE 16 ---
+   
+ 
+13 | P a g e  
+ 
+Configuration: Trained using n_estimators=200, max_depth=8, and min_samples_leaf=5 on the full 
+feature set. 
+Performance: Achieved an 𝑅2score of 0.841 for EGX30 and 0.535 for Gold, with a mean 𝑅2of 
+approximately 0.688. The model showed stronger performance on EGX30 while maintaining reasonable 
+generalization capability. 
+6. SVR (Support Vector Regressor) 
+Purpose: Models smooth non-linear return relationships using an epsilon-insensitive regression 
+approach. 
+Configuration: Implemented with an RBF kernel using C=1.0, epsilon=0.01, and automatic gamma 
+scaling. 
+Output: Achieved an 𝑅2score of 0.634 on EGX30 and 0.099 on Gold, with an average 𝑅2of approximately 
+0.367. Although it produced the weakest standalone performance, the model remained useful for 
+capturing alternative non-linear patterns and improving disagreement-based confidence estimation 
+within the ensemble framework. 
+d. Visualization 
+Power BI Dashboard - Interactive Investment Analysis 
+An interactive Power BI dashboard was developed to analyze and compare the performance, 
+volatility, and technical behavior of Egyptian market assets. The dashboard consists of three main pages. 
+i. Page 1: Market Overview  
+The first page provides a high-level market summary using the cleaned dataset before feature 
+engineering. It includes KPI cards such as Total Return %, Current Price, and Sharpe Ratio. 
+• Comparative Market Volatility: compares daily percentage price changes across assets over 
+time.  
+• Asset Performance (Rebased to 100): normalizes asset prices to compare growth trends 
+regardless of original price levels. 
+ 
+ 
+ 
+--- PAGE 17 ---
+   
+ 
+14 | P a g e  
+ 
+ 
+Figure 9:Dashboard Page1: Market Overview 
+ 
+ 
+ii. Page2: Exploratory Data Analysis (EDA) : 
+The second page focuses on individual asset analysis using the feature-engineered dataset. Users can 
+select a single asset, and all visuals update accordingly. 
+The page includes: 
+• Asset Price Trend to visualize long-term price movement.  
+• RSI to indicate momentum and overbought/oversold conditions.  
+• MACD Histogram shows trend strength and momentum changes. 
+ 
+Figure 10: Dashboard Page2: Exploratory Data Analysis 
+ 
+ 
+
+--- PAGE 18 ---
+   
+ 
+15 | P a g e  
+ 
+iii. Page 3: Statistical EDA & Risk Analysis  
+The final page presents statistical and risk-based analysis across assets.  
+• Risk vs. Return Scatter Plot comparing volatility against total return. 
+• Distribution of Daily Returns Histogram showing return frequency and variability. 
+• Technical Indicator Summary Table comparing average RSI, MACD Histogram, Bollinger Band 
+metrics, and distance from the 5-day SMA using conditional formatting. 
+ 
+Results 
+EDA Key findings 
+The exploratory analysis revealed noticeable differences in liquidity, volatility, and return behavior across 
+assets. EGX30 and Gold showed higher volatility and stronger price movement compared to more stable 
+assets. Correlation analysis also indicated varying relationships between asset classes, supporting the 
+use of diversification in portfolio construction. 
+Additionally, some assets exhibited periods of stale or limited movement, reflecting lower market activity 
+compared to more liquid instruments. 
+Regression Results (Strategic Forecasting) 
+The regression models were evaluated using 𝑅2, RMSE, and MAE metrics through walk-forward 
+validation. 
+Linear Regression achieved the strongest overall performance, with an average 𝑅2score of approximately 
+0.93 across EGX30 and Gold, indicating that the engineered features captured a strong linear relationship 
+with future returns. 
+Figure 11: Dashboard Page3, Statistical EDA & Risk Analysis 
+--- PAGE 19 ---
+   
+ 
+16 | P a g e  
+ 
+Random Forest achieved moderate predictive performance with a mean 𝑅2of approximately 0.69, while 
+SVR produced the lowest average 𝑅2score of approximately 0.37. 
+These results suggest that simpler linear relationships explained a significant portion of market behavior, 
+while non-linear models captured additional but less consistent patterns. 
+Classification Results (Tactical Signals) 
+Classification models were evaluated using Accuracy, Precision, Recall, and weighted F1-score metrics. 
+The SVM classifier achieved the strongest tactical classification performance with approximately 37.8% 
+accuracy and 37.5% weighted F1-score, slightly outperforming Logistic Regression, which achieved 
+approximately 34.9% accuracy and weighted F1-score. 
+Although classification accuracy remained close to the theoretical baseline of a three-class problem, the 
+models still provided useful probabilistic signals and confidence estimates for tactical portfolio 
+adjustments. 
+ 
+Montecarlo Key findings 
+Figure 1 illustrates the efficient frontier generated using the Monte Carlo simulation approach, 
+highlighting the optimal investment portfolio in the Egyptian market based on the trade-off between risk and 
+expected return. The figure demonstrates how different portfolio allocations perform under varying levels of 
+volatility and return, with the optimal portfolio selected according to the highest risk-adjusted performance.  
+ 
+Figure 2 presents the asset weights corresponding to the optimal portfolio identified from the efficient 
+frontier analysis. These weights represent the proportion of capital allocated to each asset in order to achieve 
+the targeted balance between return maximization and risk minimization.  
+
+--- PAGE 20 ---
+   
+ 
+17 | P a g e  
+ 
+ 
+ 
+Figure 3 shows the backtesting results of the proposed portfolio compared with several benchmark 
+portfolios and indices, including the EGX30, a 60/40 Treasury Bills allocation strategy, and the S&P 500. This 
+comparison evaluates the historical performance of the selected portfolio and demonstrates its effectiveness 
+relative to traditional investment strategies and market benchmarks.  
+.  
+Figure 4 illustrates the drawdown analysis for the proposed portfolio and the benchmark portfolios. 
+The figure highlights the magnitude of portfolio declines during adverse market conditions, providing insight 
+into the downside risk and resilience of each investment strategy.  
+
+--- PAGE 21 ---
+   
+ 
+18 | P a g e  
+ 
+ 
+Moreover, the correlation heatmap presented in Figure 5 visualizes the correlation coefficients among 
+all selected features and assets. This analysis helps identify the strength and direction of relationships between 
+variables, offering a clearer understanding of diversification effects and interdependencies within the portfolio.  
+ 
+
+--- PAGE 22 ---
+   
+ 
+19 | P a g e  
+ 
+Conclusion 
+This study demonstrated how machine learning and data-driven portfolio analysis can support 
+investment decision-making in the Egyptian market. Exploratory analysis highlighted differences in 
+volatility, liquidity, and correlation across assets, emphasizing the value of diversification through assets 
+such as Gold and T-Bills. Among the tested models, Linear Regression achieved the strongest regression 
+performance, while XGBoost and SVM provided the most effective classification results for tactical 
+market signals. Walk-forward backtesting further showed that combining predictive models with portfolio 
+optimization improved risk-adjusted portfolio stability across different market conditions. Despite 
+challenges related to market volatility, currency effects, and policy-driven regime shifts, the proposed 
+framework provides a practical foundation for data-driven portfolio management and future expansion 
+using real-time data and more advanced forecasting models. 
+Acknowledgement 
+Sincere appreciation is extended to Dr. Fatma Elshahaby and Dr. Malak Khaled for their valuable 
+guidance, constructive feedback, and continuous support throughout the preparation of this technical 
+report. Their expertise and encouragement were greatly appreciated and contributed significantly to the 
+successful completion of this work. 
+References 
+• Algorithmic Trading: Winning Strategies and Their Rationale 
+Chan, E. P . (2013). Algorithmic trading: Winning strategies and their rationale. John Wiley & Sons. 
+• Inside the Black Box: A Simple Guide to Quantitative and High-Frequency Trading 
+Narang, R. K. (2013). Inside the black box: A simple guide to quantitative and high-frequency trading 
+(2nd ed.). John Wiley & Sons. 
+• Active Portfolio Management: A Quantitative Approach for Producing Superior Returns and 
+Controlling Risk 
+Grinold, R. C., & Kahn, R. N. (1999). Active portfolio management: A quantitative approach for 
+producing superior returns and controlling risk (2nd ed.). McGraw-Hill. 
+• Machine Learning in Finance: From Theory to Practice 
+Dixon, M. F ., Halperin, I., & Bilokon, P . (2020). Machine learning in finance: From theory to practice. 
+Springer.  
+--- PAGE 23 ---
+   
+ 
+20 | P a g e  
+ 
+Appendix A: AI Audit 
+This appendix documents all instances where AI tools (e.g., ChatGPT, Claude) were  
+used during this project, in compliance with CSE271 AI usage policy. 
+Instance 1: 
+- Tool used: [ChatGPT] 
+- Purpose: [Road map to learn using Power BI] 
+- Prompt used: [Paste your exact prompt — a screenshot must accompany this] 
+- AI output: [Summarize or paste the raw output — screenshot required] 
+- How we refined it: [e.g., "We verified all citations manually, rewrote the  
+  paragraph structure and added the CBE 2024 reference which the AI omitted. "] 
+Instance 2: 
+- Tool used: [Gemeni] 
+- Purpose: [Getting insights on implementing Montecarlo, based on results from classical models] 
+Instance 3: 
+- Tool used: [chat GPT] 
+- Purpose: [APA style format] 
+- Parmet [Put those references in APA style] 
+Instance 4: 
+- Tool used: [Claude] 
+- Purpose: [Fixing the formation of data sets] 
+- Parmet [passed on the formation of those first 20 rows, What kind of fixes show be applied to this data] 
+Note: A screenshot of most prompts is included below 
+ 
+
+--- PAGE 24 ---
+   
+ 
+21 | P a g e  
+ 
+ 
+ 
+ 
+
+--- PAGE 25 ---
+   
+ 
+22 | P a g e  
+ 
+ 
+ 
+ 
+
+--- PAGE 26 ---
+   
+ 
+23 | P a g e  
+ 
+ 
+ 
+  
+ 
+
+--- PAGE 27 ---
+   
+ 
+24 | P a g e  
+ 
+ 

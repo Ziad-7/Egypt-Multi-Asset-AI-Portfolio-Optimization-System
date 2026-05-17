@@ -104,6 +104,7 @@ python3 scripts/independent_validation.py
 ## Output Artifacts
 
 - `outputs/intelligence_report.json` (includes `run_metadata`, `institutional_risk_limits`, `drift_assessment`, `documentation` paths, and backtest `walk_forward_oos` when the backtest runs)
+- `outputs/model_summary.json` (compact per-model metrics plus best regression/classification picks)
 - `outputs/plots/strategic_allocations.png`
 - `outputs/plots/risk_contributions.png`
 - `outputs/plots/efficient_frontier.png`
