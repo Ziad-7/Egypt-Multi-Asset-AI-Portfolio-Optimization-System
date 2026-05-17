@@ -1,0 +1,16 @@
+Power BI Dashboard - Interactive Investment Analysis
+An interactive Power BI dashboard was developed to visualize and analyze the performance, risk, and behavior of Egyptian market assets. The dashboard consists of three pages, each serving a distinct analytical purpose.
+
+Page 1: Market Overview
+The first page provides a high-level overview of the market using the original cleaned dataset prior to feature engineering. The page features dynamic Key Performance Indicator (KPI) cards�including Total Return %, Current Price, and Sharpe Ratio. It contains two primary interactive line charts:
+
+Comparative Market Volatility: Tracks the daily price change percentage for all assets over time. The Y-axis represents the daily change percentage, and the X-axis represents time. Assets with lines further from the zero baseline experienced larger price swings.
+
+Asset Performance (Rebased to 100): Normalizes all asset prices to a common starting value of 100 at the beginning of the selected period. This allows an equitable "race" comparison between assets whose raw prices differ significantly.
+Both charts and KPIs respond dynamically to a global date range slicer.
+
+Page 2: Exploratory Data Analysis (EDA)
+The second page focuses on individual asset behavior utilizing the feature-engineered dataset. Designed around a single-asset selection model (via top navigation buttons), all visuals update simultaneously to reflect the chosen asset's specific profile. "Asset Price Trend" is presented through a price-over-time line chart to identify macro trends. Below this, technical momentum is visualized through dedicated Relative Strength Index (RSI) and MACD Histogram charts, allowing for the assessment of overbought/oversold conditions and trend strength over the selected timeframe.
+
+Page 3: Statistical EDA & Risk Analysis
+The final page presents quantitative risk metrics, return distribution analysis, and a technical indicator summary. A "Risk vs. Return" scatter plot positions each asset as a single coordinate, where the X-axis represents market volatility and the Y-axis represents total return percentage. A "Distribution of Daily Returns" histogram plots the frequency of returns across all assets into equal-width bins. Finally, a technical indicator matrix compares five averaged metrics�RSI, MACD Histogram, Bollinger Band %B, Bollinger Bandwidth, and Distance to the 5-day SMA�utilizing conditional color formatting for immediate visual identification of asset behavior.
